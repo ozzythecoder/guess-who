@@ -7,7 +7,7 @@ body, h1, h2, h3, p {
 
 #content {
   margin: 20px 10%;
-  padding: 15px 30px;
+  padding: 25px 30px 60px 30px;
   border: 3px solid black;
   border-radius: 20px;
   text-align: center;
@@ -19,6 +19,10 @@ body, h1, h2, h3, p {
   font-weight: 700;
   font-size: 22px;
   color: red;
+}
+
+#name-to-guess {
+  color: navy;
 }
 
 .correct-guess {

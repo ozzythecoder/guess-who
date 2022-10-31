@@ -55,7 +55,7 @@ function gameWin() {
 
   $( '#feedback' ).addClass('correct-guess') // turns text green
   $( '#feedback' ).append(`
-    <p>That's correct!!</p>
+    <p>That's correct! Play again?</p>
   `)
 
   // set correct answer as the last answer, so it won't be immediately selected again
