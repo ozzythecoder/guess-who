@@ -48,6 +48,7 @@ function evaluateGuess() {
 function gameWin() {
   console.log('correct guess!');
   $( '#feedback' ).empty();
+  $( '#feedback' ).addClass('correct-guess')
   $( '#feedback' ).append(`
     <p>That's correct!!</p>
   `)
