@@ -1,11 +1,9 @@
 $( document ).ready(onReady);
-let correctGuess;
+
+let correctGuess; // initializing global variable
 
 function onReady() {
   renderProfilePictures();
-  
-  correctGuess = getRandomPerson(); // set a random person's name as global correct value
-  console.log(correctGuess);
   gameInit();
 
   $( '#pictures' ).on('click', 'img', evaluateGuess)
@@ -20,8 +18,13 @@ function renderProfilePictures() {
 }
 
 function gameInit() {
-  // prompt the player to click a picture
-  $('#feedback').append(`
+  // set a random person's name as global correct value
+  correctGuess = getRandomPerson();
+  
+  console.log(correctGuess);
+  
+  // prompt the player to click the correct picture
+  $('#instructions').append(`
     <p>Click on the picture of ${correctGuess.name}:</p>
   `)
 }
@@ -44,6 +47,10 @@ function evaluateGuess() {
 
 function gameWin() {
   console.log('correct guess!');
+  $( '#feedback' ).empty();
+  $( '#feedback' ).append(`
+    <p>That's correct!!</p>
+  `)
 }
 
 function gameLoss() {
@@ -52,7 +59,6 @@ function gameLoss() {
   $( '#feedback' ).append(`
     <p>Wrong! Try again.</p>
   `);
-  gameInit();
 }
 
 function randomNumber(min, max){
