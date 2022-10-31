@@ -23,6 +23,7 @@ function gameInit() {
   
   console.log(correctGuess);
   
+  $('#instructions').empty();
   // prompt the player to click the correct picture
   $('#instructions').append(`
     <p>Click on the picture of ${correctGuess.name}:</p>
@@ -52,6 +53,7 @@ function gameWin() {
   $( '#feedback' ).append(`
     <p>That's correct!!</p>
   `)
+  gameInit();
 }
 
 function gameLoss() {
