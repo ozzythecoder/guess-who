@@ -14,7 +14,7 @@ function onReady() {
 function renderProfilePictures() {
   people.forEach( (person) => {
     $('#pictures').append(`
-    <img src="https://github.com/${person.githubUsername}.png?size=250" data-person="${person.name}" alt="Profile image of ${person.name}">
+    <img src="https://github.com/${person.githubUsername}.png?size=200" data-person="${person.name}" alt="Profile image of ${person.name}">
     `)
   })
 }
@@ -53,7 +53,7 @@ function gameWin() {
 
   clearFeedback();
 
-  $( '#feedback' ).addClass('correct-guess')
+  $( '#feedback' ).addClass('correct-guess') // turns text green
   $( '#feedback' ).append(`
     <p>That's correct!!</p>
   `)
@@ -65,8 +65,10 @@ function gameWin() {
 }
 
 function gameLoss() {
-  console.log('oops! learn your teacher\'s names!');
-  $( '#feedback' ).empty();
+
+  clearFeedback();
+
+  $( '#feedback' ).removeClass('correct-guess'); // turns text red
   $( '#feedback' ).append(`
     <p>Wrong! Try again.</p>
   `);
