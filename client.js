@@ -8,19 +8,22 @@ function onReady() {
 
   gameInit();
 
+  // handle click of any image
   $( '#pictures' ).on('click', 'img', evaluateGuess)
 }
 
 function render() {
 
-  // render pictures
+  // remove pictures
   $('#pictures').empty();
 
+  // algorithm to shuffle the array (I guess it's called a Schwartzian transform?)
   let shuffledPeople = people
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
 
+  // render the pictures in new order
   shuffledPeople.forEach( (person) => {
     $('#pictures').append(`
     <img src="https://github.com/${person.githubUsername}.png?size=200" data-person="${person.name}" alt="Profile image of ${person.name}">
@@ -44,14 +47,12 @@ function renderStreak() {
 }
 
 function gameInit() {
-  // set a random person's name as global correct value
   render();
-
+  
+  // gets a random person's name and sets it as the answer
   correctGuess = getRandomPerson();
   
-  console.log(correctGuess);
-  console.log('the last answer was', lastAnswer);
-  
+  // empty instructions field
   $('#instructions').empty();
   // prompt the player to click the correct picture
   $('#instructions').append(`
@@ -60,13 +61,8 @@ function gameInit() {
 }
 
 function evaluateGuess() {
-
   // get data of person who was clicked
   let thisGuess = $( this ).data().person;
-
-  console.log('in evaluateGuess');
-  console.log('correct person is', correctGuess.name);
-  console.log('person clicked on is', thisGuess);
 
   if (thisGuess == correctGuess.name) { 
     gameWin();
@@ -91,13 +87,16 @@ function gameWin() {
     $( '#feedback' ).addClass('fade') }, 1000);
   setTimeout(() => {
     $( '#feedback' ).removeClass('correct-guess') }, 1500);
+  // known issue: positive feedback will display with red text and no animation
+  // if a second correct answer is clicked too quickly after the first.
 
-  // set correct answer as the last answer, so it won't be immediately selected again
+  // set correct answer as the last answer, so it can't be randomly selected again immediately
   lastAnswer = correctGuess;
   
   // increase streak count
   streakCount++;
 
+  // roll a new game
   gameInit();
 }
 
@@ -118,6 +117,7 @@ function gameLoss() {
 }
 
 function clearFeedback() {
+  // clear feedback and remove animation classes
   $( '#feedback' ).empty();
   $( '#feedback' ).addClass('off');
   $( '#feedback' ).removeClass('fade');
