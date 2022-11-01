@@ -20,12 +20,30 @@ body, h1, h2, h3, p {
   color: red;
 }
 
+@keyframes blowup {
+  0% { font-size: 22px }
+  40% { font-size: 32px }
+  100% { font-size: 22px }
+}
+
 #name-to-guess {
   color: navy;
 }
 
 .correct-guess {
   color: forestgreen !important;
+  animation-name: blowup !important;
+  animation-duration: 0.7s;
+  opacity: 1;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.correct-guess.off {
+  animation-name: none;
 }
 
 #instructions {

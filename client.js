@@ -43,7 +43,7 @@ function gameInit() {
   $('#instructions').empty();
   // prompt the player to click the correct picture
   $('#instructions').append(`
-    <p>Click on the picture of ${correctGuess.name}:</p>
+    <p>Click on the picture of <span id="name-to-guess">${correctGuess.name}</span>:</p>
   `)
 }
 
@@ -68,10 +68,16 @@ function gameWin() {
   clearFeedback();
 
   $( '#feedback' ).addClass('correct-guess') // turns text green
+  $( '#feedback' ).removeClass('off') // turns text green
   $( '#feedback' ).append(`
     <p>That's correct! Play again?</p>
   `)
 
+  setTimeout(() => {
+    $( '#feedback' ).addClass('fade') }, 1500);
+  setTimeout(() => {
+    $( '#feedback' ).removeClass('correct-guess') }, 2000);
+    
   // set correct answer as the last answer, so it won't be immediately selected again
   lastAnswer = correctGuess;
   
@@ -91,6 +97,8 @@ function gameLoss() {
 
 function clearFeedback() {
   $( '#feedback' ).empty();
+  $( '#feedback' ).addClass('off');
+  $( '#feedback' ).removeClass('fade');
 }
 
 function randomNumber(min, max){
