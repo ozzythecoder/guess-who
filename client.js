@@ -2,7 +2,7 @@ $( document ).ready(onReady);
 
 let correctGuess; // initializing global variable
 let lastAnswer = {} // initializing global variable
-let streak = 0;
+let streakCount = 0;
 
 function onReady() {
 
@@ -11,13 +11,9 @@ function onReady() {
   $( '#pictures' ).on('click', 'img', evaluateGuess)
 }
 
-let shuffledPeople = people
-    .map(value => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value)
+function render() {
 
-function renderProfilePictures() {
-
+  // render pictures
   $('#pictures').empty();
 
   let shuffledPeople = people
@@ -30,12 +26,23 @@ function renderProfilePictures() {
     <img src="https://github.com/${person.githubUsername}.png?size=200" data-person="${person.name}" alt="Profile image of ${person.name}">
     `)
   })
+
+  renderStreak();
+}
+
+function renderStreak() {
+  // render streak counter
+  $('#streak').empty();
+  $('#streak').append(`
+    <p>Streak: ${streakCount}</p>
+  `)
 }
 
 function gameInit() {
   // set a random person's name as global correct value
+  render();
+
   correctGuess = getRandomPerson();
-  renderProfilePictures();
   
   console.log(correctGuess);
   console.log('the last answer was', lastAnswer);
@@ -67,25 +74,31 @@ function gameWin() {
 
   clearFeedback();
 
+  // start win message
   $( '#feedback' ).addClass('correct-guess') // turns text green
-  $( '#feedback' ).removeClass('off') // turns text green
+  $( '#feedback' ).removeClass('off') // restarts animation
   $( '#feedback' ).append(`
     <p>That's correct! Play again?</p>
   `)
 
+  // text animations
   setTimeout(() => {
-    $( '#feedback' ).addClass('fade') }, 1500);
+    $( '#feedback' ).addClass('fade') }, 1000);
   setTimeout(() => {
-    $( '#feedback' ).removeClass('correct-guess') }, 2000);
-    
+    $( '#feedback' ).removeClass('correct-guess') }, 1500);
+
   // set correct answer as the last answer, so it won't be immediately selected again
   lastAnswer = correctGuess;
   
-  renderProfilePictures();
+  streakCount++;
+
   gameInit();
 }
 
 function gameLoss() {
+
+  streakCount = 0;
+  renderStreak();
 
   clearFeedback();
 
