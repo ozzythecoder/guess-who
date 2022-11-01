@@ -36,6 +36,11 @@ function renderStreak() {
   $('#streak').append(`
     <p>Streak: ${streakCount}</p>
   `)
+
+  // special text if streak is greater than 10
+  if (streakCount >= 10) {
+    $('#streak').addClass('green');
+  }
 }
 
 function gameInit() {
@@ -74,9 +79,9 @@ function gameWin() {
 
   clearFeedback();
 
-  // start win message
+  // give positive feedback
   $( '#feedback' ).addClass('correct-guess') // turns text green
-  $( '#feedback' ).removeClass('off') // restarts animation
+  $( '#feedback' ).removeClass('off') // restarts "blowup" animation
   $( '#feedback' ).append(`
     <p>That's correct! Play again?</p>
   `)
@@ -90,6 +95,7 @@ function gameWin() {
   // set correct answer as the last answer, so it won't be immediately selected again
   lastAnswer = correctGuess;
   
+  // increase streak count
   streakCount++;
 
   gameInit();
@@ -97,11 +103,14 @@ function gameWin() {
 
 function gameLoss() {
 
+  // lose streak
   streakCount = 0;
+  $('#streak').removeClass('green');
   renderStreak();
 
   clearFeedback();
 
+  // give negative feedback
   $( '#feedback' ).removeClass('correct-guess'); // turns text red
   $( '#feedback' ).append(`
     <p>Wrong! Try again.</p>
