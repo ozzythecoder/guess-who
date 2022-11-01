@@ -2,17 +2,30 @@ $( document ).ready(onReady);
 
 let correctGuess; // initializing global variable
 let lastAnswer = {} // initializing global variable
+let streak = 0;
 
 function onReady() {
-  renderProfilePictures();
 
   gameInit();
 
   $( '#pictures' ).on('click', 'img', evaluateGuess)
 }
 
+let shuffledPeople = people
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+
 function renderProfilePictures() {
-  people.forEach( (person) => {
+
+  $('#pictures').empty();
+
+  let shuffledPeople = people
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+
+  shuffledPeople.forEach( (person) => {
     $('#pictures').append(`
     <img src="https://github.com/${person.githubUsername}.png?size=200" data-person="${person.name}" alt="Profile image of ${person.name}">
     `)
@@ -22,6 +35,7 @@ function renderProfilePictures() {
 function gameInit() {
   // set a random person's name as global correct value
   correctGuess = getRandomPerson();
+  renderProfilePictures();
   
   console.log(correctGuess);
   console.log('the last answer was', lastAnswer);
@@ -61,6 +75,7 @@ function gameWin() {
   // set correct answer as the last answer, so it won't be immediately selected again
   lastAnswer = correctGuess;
   
+  renderProfilePictures();
   gameInit();
 }
 
